@@ -6,63 +6,63 @@ pygame.init()
 class snake(object):
     def move_head():
         inputs.arrows()
-        global xt, yt
-        xt = x[0]
-        yt = y[0]
-        x[0] += moveX
-        y[0] += moveY
-        x[0] = Border_Check_X(x[0])
-        y[0] = Border_Check_Y(y[0])
+        global x_temperal, y_temperal
+        x_temperal = snake_x[0]
+        y_temperal = snake_y[0]
+        snake_x[0] += moveX
+        snake_y[0] += moveY
+        snake_x[0] = Border_Check_X(snake_x[0])
+        snake_y[0] = Border_Check_Y(snake_y[0])
     def tail_build():
-        if len(x) > 2:
-            for n in range(1, len(x) - 1):
-                x[len(x) - n] = x[len(x) - n - 1]
-                y[len(x) - n] = y[len(x) - n - 1]
-                pygame.draw.rect(game_surface, SNAKE_BODY, (x[len(x) - n], y[len(x) - n], 10, 10))
-        if len(x) > 1:
-            x[1] = xt
-            y[1] = yt
-            pygame.draw.rect(game_surface, SNAKE_BODY, (x[1], y[1], 10, 10))
+        if len(snake_x) > 2:
+            for n in range(1, len(snake_x) - 1):
+                snake_x[len(snake_x) - n] = snake_x[len(snake_x) - n - 1]
+                snake_y[len(snake_x) - n] = snake_y[len(snake_x) - n - 1]
+                pygame.draw.rect(game_surface, SNAKE_BODY_COLOR, (snake_x[len(snake_x) - n], snake_y[len(snake_x) - n], 10, 10))
+        if len(snake_x) > 1:
+            snake_x[1] = x_temperal
+            snake_y[1] = y_temperal
+            pygame.draw.rect(game_surface, SNAKE_BODY_COLOR, (snake_x[1], snake_y[1], 10, 10))
 
         pass
     def hit_check(a, b):
-        for i in range(1, len(x) - 1):
-            if a == x[i] and b == y[i]:
+        for i in range(1, len(snake_x) - 1):
+            if a == snake_x[i] and b == snake_y[i]:
                 return True
             pass
     def tail_draw():
-            for n in range(1, len(x)):
-                pygame.draw.rect(game_surface, SNAKE_BODY, (x[n], y[n], 10, 10))
+            for n in range(1, len(snake_x)):
+                pygame.draw.rect(game_surface, SNAKE_BODY_COLOR, (snake_x[n], snake_y[n], 10, 10))
     def draw_head():
-        pygame.draw.rect(game_surface, SNAKE_BODY, (x[0], y[0], 10, 10))
+        pygame.draw.rect(game_surface, SNAKE_BODY_COLOR, (snake_x[0], snake_y[0], 10, 10))
         pass
 
 class food(object):
     def eaten_check():
-        if x[0] == xF and y[0] == yF or press[pygame.K_e]:
+        if snake_x[0] == food_x and snake_y[0] == food_y or press[pygame.K_e]:
             return True
             pass
     def add():
-        global xF, yF
-        xF = yF = H_OF_GAME + W_OF_GAME + 1
-        while snake.hit_check(xF, yF) or (xF % 10 != 0) or (yF % 10 != 0):
-            xF = int(round(random.randint(1, W_OF_GAME - 10) / 100, 1) * 100)
-            yF = int(round(random.randint(1, H_OF_GAME - 10) / 100, 1) * 100)
+        global food_x, food_y
+        food_x = food_y = H_OF_GAME + W_OF_GAME + 1
+        while snake.hit_check(food_x, food_y) or (food_x % 10 != 0) or (food_y % 10 != 0):
+            food_x = int(round(random.randint(1, W_OF_GAME - 10) / 100, 1) * 100)
+            food_y = int(round(random.randint(1, H_OF_GAME - 10) / 100, 1) * 100)
     def geting_eaten():
         global score
         if food.eaten_check():
-            x.append(0)
-            y.append(0)
-            score = len(x) - 1
+            snake_x.append(0)
+            snake_y.append(0)
+            score = len(snake_x) - 1
             food.add()
         pass
     def draw():
-        pygame.draw.rect(game_surface, FOOD, (xF, yF, 10, 10))
+        pygame.draw.rect(game_surface, FOOD_COLOR, (food_x, food_y, 10, 10))
         pass
 
 class game():
     def cosplay_yarmongand():
-        global score, x, y, moveX, moveY
+        global score, snake_x, snake_y, moveX, moveY
         # Died screen fonts
         f_died_screen_text = pygame.font.Font("/home/jayanta/Python/GAme/minecraft.ttf", 40)
         died_screen_text = f_died_screen_text.render("You died!", 1, WHITE)
@@ -72,19 +72,23 @@ class game():
         died_screen_score = f_died_screen_score.render('Score: ' + str(score), 1, WHITE)
         died_screen_score_pos = died_screen_score.get_rect(center=(W_OF_SCREEN // 2, died_screen_text_pos.bottom + 10))
 
-        if snake.hit_check(x[0], y[0]):
+        f_died_screen_buttons = pygame.font.Font("/home/jayanta/Python/GAme/minecraft.ttf", 15)
+        died_screen_buttons = f_died_screen_buttons.render('Press "R" to restart', 1, WHITE)
+        died_screen_buttons_pos = died_screen_buttons.get_rect(center=(W_OF_SCREEN // 2, died_screen_score_pos.bottom + 30))
+
+        if snake.hit_check(snake_x[0], snake_y[0]):
             while True:
-                r = 0 # Gotta cut out
                 press = pygame.key.get_pressed()
                 for event in pygame.event.get():
                     if event.type == pygame.QUIT or press[pygame.K_ESCAPE]:
                         pygame.quit()
                         exit()
-                    if press[pygame.K_r]:
-                        r = 1 # Gotta cut out
-                if r == 1:
-                    x = array('i', [W_OF_GAME // 2])
-                    y = array('i', [H_OF_GAME // 2])
+                if press[pygame.K_r]:
+                    snake_x = array('i', [W_OF_GAME // 2])
+                    snake_y = array('i', [H_OF_GAME // 2])
+                    moveX = 0
+                    moveY = speed
+                    food.add()
                     break
                 died_screen.fill((255, 0, 0))
                 died_screen.set_alpha(60)
@@ -93,6 +97,7 @@ class game():
                 window.blit(died_screen, (0, 0))
                 window.blit(died_screen_text, died_screen_text_pos)
                 window.blit(died_screen_score, died_screen_score_pos)
+                window.blit(died_screen_buttons, died_screen_buttons_pos)
                 pygame.display.update()
         pass
 
@@ -148,8 +153,8 @@ clock = pygame.time.Clock()
 speed = 10
 
 # Var
-xt = 0
-yt = 0
+x_temperal = 0
+y_temperal = 0
 moveX = 0
 moveY = speed
 score = 0
@@ -160,9 +165,9 @@ pygame.display.set_icon(pygame.image.load("Icon.png"))
 pygame.display.set_caption("SnakeV0.4")
 
 # colors
-SNAKE_BODY = (139, 69, 19)
-FIELD = (245, 222, 179)
-FOOD = (255, 69, 0)
+SNAKE_BODY_COLOR = (139, 69, 19)
+FIELD_COLOR = (245, 222, 179)
+FOOD_COLOR = (255, 69, 0)
 WHITE = (255, 255, 255)
 
 # Game surface
@@ -177,13 +182,13 @@ died_screen = pygame.Surface((W_OF_SCREEN, H_OF_SCREEN))
 
 
 # Arrays
-x = array('i', [W_OF_GAME // 2])
-y = array('i', [H_OF_GAME // 2])
+snake_x = array('i', [W_OF_GAME // 2])
+snake_y = array('i', [H_OF_GAME // 2])
 
 
 # Score fonts
 f_score = pygame.font.SysFont("loma", 20)
-score_text = f_score.render('Score: ' + str(score), 1, FOOD)
+score_text = f_score.render('Score: ' + str(score), 1, FOOD_COLOR)
 score_pos = score_text.get_rect(center=(W_OF_SCREEN - 50, 10))
 
 food.add()
@@ -200,12 +205,12 @@ while True:
     game.cosplay_yarmongand()
     food.geting_eaten()
 
-    game_surface.fill(FIELD)
+    game_surface.fill(FIELD_COLOR)
     snake.draw_head()
     snake.tail_draw()
     food.draw()
     window.blit(game_surface, (0, 0))
-    score_text = f_score.render('Score: ' + str(len(x) - 1), 1, FOOD, FIELD)
+    score_text = f_score.render('Score: ' + str(len(snake_x) - 1), 1, FOOD_COLOR)
     window.blit(score_text, score_pos)
     pygame.display.update()
     clock.tick(FPS)
