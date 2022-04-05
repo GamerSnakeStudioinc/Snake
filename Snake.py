@@ -1,7 +1,7 @@
 import pygame
 import random
 from array import *
-
+# v 0.5.0
 pygame.init()
 class snake(object):
     def move_head():
