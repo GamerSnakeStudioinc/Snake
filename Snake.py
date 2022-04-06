@@ -18,11 +18,9 @@ class snake(object):
             for n in range(1, len(snake_x) - 1):
                 snake_x[len(snake_x) - n] = snake_x[len(snake_x) - n - 1]
                 snake_y[len(snake_x) - n] = snake_y[len(snake_x) - n - 1]
-                pygame.draw.rect(game_surface, SNAKE_BODY_COLOR, (snake_x[len(snake_x) - n], snake_y[len(snake_x) - n], 10, 10))
         if len(snake_x) > 1:
             snake_x[1] = x_temperal
             snake_y[1] = y_temperal
-            pygame.draw.rect(game_surface, SNAKE_BODY_COLOR, (snake_x[1], snake_y[1], 10, 10))
 
         pass
     def hit_check(a, b):
@@ -189,7 +187,6 @@ snake_y = array('i', [H_OF_GAME // 2])
 # Score fonts
 f_score = pygame.font.SysFont("loma", 20)
 score_text = f_score.render('Score: ' + str(score), 1, FOOD_COLOR)
-score_pos = score_text.get_rect(center=(W_OF_SCREEN - 50, 10))
 
 food.add()
 while True:
@@ -210,6 +207,7 @@ while True:
     snake.tail_draw()
     food.draw()
     window.blit(game_surface, (0, 0))
+    score_pos = score_text.get_rect(center=(W_OF_SCREEN - 50, 10))
     score_text = f_score.render('Score: ' + str(len(snake_x) - 1), 1, FOOD_COLOR)
     window.blit(score_text, score_pos)
     pygame.display.update()
