@@ -61,20 +61,34 @@ class food(object):
 class game():
     def cosplay_yarmongand():
         global score, snake_x, snake_y, moveX, moveY
-        # Died screen fonts
-        f_died_screen_text = pygame.font.Font("/home/jayanta/Python/GAme/minecraft.ttf", 40)
-        died_screen_text = f_died_screen_text.render("You died!", 1, WHITE)
-        died_screen_text_pos = died_screen_text.get_rect(center=(W_OF_SCREEN // 2, H_OF_SCREEN // 2 - H_OF_SCREEN // 10))
-
-        f_died_screen_score = pygame.font.Font("/home/jayanta/Python/GAme/minecraft.ttf", 20)
-        died_screen_score = f_died_screen_score.render('Score: ' + str(score), 1, WHITE)
-        died_screen_score_pos = died_screen_score.get_rect(center=(W_OF_SCREEN // 2, died_screen_text_pos.bottom + 10))
-
-        f_died_screen_buttons = pygame.font.Font("/home/jayanta/Python/GAme/minecraft.ttf", 15)
-        died_screen_buttons = f_died_screen_buttons.render('Press "R" to restart', 1, WHITE)
-        died_screen_buttons_pos = died_screen_buttons.get_rect(center=(W_OF_SCREEN // 2, died_screen_score_pos.bottom + 30))
 
         if snake.hit_check(snake_x[0], snake_y[0]):
+            # Died screen fonts
+            f_died_screen_text = pygame.font.Font("/home/jayanta/Python/GAme/minecraft.ttf", 40)
+            died_screen_text = f_died_screen_text.render("You died!", 1, WHITE)
+            died_screen_text_pos = died_screen_text.get_rect(center=(W_OF_SCREEN // 2, H_OF_SCREEN // 2 - H_OF_SCREEN // 10))
+            died_screen_text_shadow = f_died_screen_text.render("You died!", 1, BLACK)
+            died_screen_text_shadow_pos = died_screen_text.get_rect(center=(W_OF_SCREEN // 2 + 3, H_OF_SCREEN // 2 - H_OF_SCREEN // 10 + 3))
+            died_screen_text_shadow.set_alpha(170)
+
+            f_died_screen_score_text = pygame.font.Font("/home/jayanta/Python/GAme/minecraft.ttf", 20)
+            died_screen_score_text = f_died_screen_score_text.render('Score: ', 1, WHITE)
+            died_screen_score_text_pos = died_screen_score_text.get_rect(center=(W_OF_SCREEN // 2, died_screen_text_pos.bottom + 10))
+            died_screen_score_text_shadow = f_died_screen_score_text.render('Score: ' + str(score), 1, BLACK)
+            died_screen_score_text_shadow_pos = died_screen_score_text.get_rect(center=(W_OF_SCREEN // 2 + 2, died_screen_text_pos.bottom + 10 + 2))
+            died_screen_score_text_shadow.set_alpha(200)
+
+            died_screen_score = f_died_screen_score_text.render(str(score), 1, DIED_SCREEN_SCORE_COLOR)
+            died_screen_score_pos = died_screen_score.get_rect(topleft=died_screen_score_text_pos.topright)
+            died_screen_score_pos.move_ip(0, 1)
+
+            f_died_screen_buttons = pygame.font.Font("/home/jayanta/Python/GAme/minecraft.ttf", 15)
+            died_screen_buttons = f_died_screen_buttons.render('Press "R" to restart', 1, WHITE)
+            died_screen_buttons_pos = died_screen_buttons.get_rect(center=(W_OF_SCREEN // 2, died_screen_score_text_pos.bottom + 30))
+            died_screen_buttons_shadow = f_died_screen_buttons.render('Press "R" to restart', 1, BLACK)
+            died_screen_buttons_shadow_pos = died_screen_buttons.get_rect(
+                center=(W_OF_SCREEN // 2 + 2, died_screen_score_text_pos.bottom + 30 + 2))
+            died_screen_buttons_shadow.set_alpha(200)
             while True:
                 press = pygame.key.get_pressed()
                 for event in pygame.event.get():
@@ -93,8 +107,13 @@ class game():
                 window.blit(game_surface, (0, 0))
                 window.blit(score_text, score_pos)
                 window.blit(died_screen, (0, 0))
+                window.blit(died_screen_text_shadow, died_screen_text_shadow_pos)
                 window.blit(died_screen_text, died_screen_text_pos)
+                window.blit(died_screen_score_text_shadow, died_screen_score_text_shadow_pos)
                 window.blit(died_screen_score, died_screen_score_pos)
+                # window.blit(died_screen_score_shadow, died_screen_score_shadow_pos)
+                window.blit(died_screen_score_text, died_screen_score_text_pos)
+                window.blit(died_screen_buttons_shadow, died_screen_buttons_shadow_pos)
                 window.blit(died_screen_buttons, died_screen_buttons_pos)
                 pygame.display.update()
         pass
@@ -167,7 +186,8 @@ SNAKE_BODY_COLOR = (139, 69, 19)
 FIELD_COLOR = (245, 222, 179)
 FOOD_COLOR = (255, 69, 0)
 WHITE = (255, 255, 255)
-
+BLACK = (0, 0, 0)
+DIED_SCREEN_SCORE_COLOR = (247, 246, 96)
 # Game surface
 W_OF_GAME, H_OF_GAME = W_OF_SCREEN, H_OF_SCREEN
 game_surface = pygame.Surface((W_OF_GAME, H_OF_GAME))
