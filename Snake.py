@@ -60,28 +60,103 @@ class food:
 
 class game:
     def menu():
-        global menu_status
+        global menu_status, SNAKE_BODY_COLOR, FOOD_COLOR, FIELD_COLOR
         f_menu_game_name = pygame.font.Font("/home/jayanta/Python/SnakeGame/QuicksilverFastRegular.ttf", 60)
-        menu_game_name = f_menu_game_name.render("SNAKE", 1, SNAKE_BODY_COLOR)
-        menu_game_name_pos = menu_game_name.get_rect(center=(W_OF_SCREEN // 2, H_OF_SCREEN // 2 - H_OF_SCREEN // 10))
-
+        f_menu_game_start = pygame.font.Font("/home/jayanta/Python/SnakeGame/GvTimeRegular.ttf", 30)
         while True:
             press = pygame.key.get_pressed()
             for event in pygame.event.get():
-                if event.type == pygame.QUIT or press[pygame.K_ESCAPE]:
-                    pygame.quit()
+                if event.type == pygame.QUIT:
                     exit()
-            if press[pygame.K_e]:
+            if press[pygame.K_SPACE]:
                 menu_status = False
                 break
+            menu_game_name = f_menu_game_name.render("SNAKE", 1, FOOD_COLOR)
+            menu_game_name_pos = menu_game_name.get_rect(
+                center=(W_OF_SCREEN // 2, H_OF_SCREEN // 2 - H_OF_SCREEN // 10))
+
+            menu_game_start = f_menu_game_start.render('Press "Spase" to start', 1, FOOD_COLOR)
+            menu_game_start_pos = menu_game_start.get_rect(center=(W_OF_SCREEN // 2, menu_game_name_pos.bottom + 20))
             game_surface.fill(FIELD_COLOR)
             window.blit(game_surface, (0, 0))
             window.blit(menu_game_name, menu_game_name_pos)
+            window.blit(menu_game_start, menu_game_start_pos)
+            if press[pygame.K_ESCAPE]:
+                exit = pygame.Surface((W_OF_SCREEN//3, H_OF_SCREEN//3))
+                exit_pos = exit.get_rect(center=(W_OF_SCREEN//2, H_OF_SCREEN//2))
+                exit.fill(BLACK)
+                f_exit_text = pygame.font.Font("/home/jayanta/Python/SnakeGame/BiggestGarbage.otf", 20)
+                exit_text = f_exit_text.render("Do you want to leave? y/n", 1, WHITE)
+                exit_text_pos = exit_text.get_rect(center=exit_pos.center)
+                window.blit(exit, exit_pos)
+                window.blit(exit_text, exit_text_pos)
+                pygame.display.update()
+                while True:
+                    press = pygame.key.get_pressed()
+                    for event in pygame.event.get():
+                        if event.type == pygame.QUIT:
+                            exit()
+                    if press[pygame.K_y]:
+                        exit()
+                    if press[pygame.K_n]:
+                        break
+            if press[pygame.K_t]:
+                theme = pygame.Surface((W_OF_SCREEN // 3, H_OF_SCREEN // 3))
+                theme_pos = theme.get_rect(center=(W_OF_SCREEN // 2, H_OF_SCREEN // 2))
+                theme.fill(BLACK)
+                f_theme_text = pygame.font.Font("/home/jayanta/Python/SnakeGame/BiggestGarbage.otf", 20)
+                theme_text = f_theme_text.render("Theme: 1-9", 1, WHITE)
+                theme_text_pos = theme_text.get_rect(center=theme_pos.center)
+                window.blit(theme, theme_pos)
+                window.blit(theme_text, theme_text_pos)
+                pygame.display.update()
+                while True:
+                    press = pygame.key.get_pressed()
+                    for event in pygame.event.get():
+                        if event.type == pygame.QUIT:
+                            exit()
+                    if press[pygame.K_1]:
+                        SNAKE_BODY_COLOR = BLACK
+                        FIELD_COLOR = (243,202,32)
+                        FOOD_COLOR = BLACK
+                        break
+                    if press[pygame.K_2]:
+                        SNAKE_BODY_COLOR = (207,184,69)
+                        FIELD_COLOR = (20,20,20)
+                        FOOD_COLOR = (127,195,192)
+                        break
+                    if press[pygame.K_ESCAPE]:
+                        break
+            if press[pygame.K_ESCAPE]:
+                exit = pygame.Surface((W_OF_SCREEN//3, H_OF_SCREEN//3))
+                exit_pos = exit.get_rect(center=(W_OF_SCREEN//2, H_OF_SCREEN//2))
+                exit.fill(BLACK)
+                f_exit_text = pygame.font.Font("/home/jayanta/Python/SnakeGame/BiggestGarbage.otf", 20)
+                exit_text = f_exit_text.render("Do you want to leave? y/n", 1, WHITE)
+                exit_text_pos = exit_text.get_rect(center=exit_pos.center)
+                window.blit(exit, exit_pos)
+                window.blit(exit_text, exit_text_pos)
+                pygame.display.update()
+                while True:
+                    press = pygame.key.get_pressed()
+                    for event in pygame.event.get():
+                        if event.type == pygame.QUIT:
+                            exit()
+                    if press[pygame.K_y]:
+                        exit()
+                    if press[pygame.K_n]:
+                        break
+
+
             pygame.display.update()
     def reset_if_hit():
         global score, snake_x, snake_y, moveX, moveY
 
         if snake.hit_check(snake_x[0], snake_y[0]):
+            snake_x = array('i', [W_OF_GAME // 2])
+            snake_y = array('i', [H_OF_GAME // 2])
+            moveX = 0
+            moveY = speed
             # Died screen fonts
             f_died_screen_text = pygame.font.Font("/home/jayanta/Python/GAme/minecraft.ttf", 40)
             died_screen_text = f_died_screen_text.render("You died!", 1, WHITE)
@@ -115,10 +190,6 @@ class game:
                         pygame.quit()
                         exit()
                 if press[pygame.K_r]:
-                    snake_x = array('i', [W_OF_GAME // 2])
-                    snake_y = array('i', [H_OF_GAME // 2])
-                    moveX = 0
-                    moveY = speed
                     food.add()
                     break
 
