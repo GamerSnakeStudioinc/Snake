@@ -182,9 +182,16 @@ pygame.display.set_icon(pygame.image.load("Icon.png"))
 pygame.display.set_caption("SnakeV0.4")
 
 # colors
-SNAKE_BODY_COLOR = (139, 69, 19)
-FIELD_COLOR = (245, 222, 179)
-FOOD_COLOR = (255, 69, 0)
+Theme = 2
+if Theme == 1:
+    SNAKE_BODY_COLOR = (139, 69, 19)
+    FIELD_COLOR = (245, 222, 179)
+    FOOD_COLOR = (255, 69, 0)
+elif Theme == 2:
+    SNAKE_BODY_COLOR = (247, 254, 0)
+    FIELD_COLOR = (5, 32, 96)
+    FOOD_COLOR = (255, 24, 0)
+
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 DIED_SCREEN_SCORE_COLOR = (247, 246, 96)
