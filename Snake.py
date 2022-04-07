@@ -3,12 +3,12 @@ import random
 from array import *
 # v 0.5.0
 pygame.init()
-class snake(object):
+class snake:
     def move_head():
         inputs.arrows()
-        global x_temperal, y_temperal
-        x_temperal = snake_x[0]
-        y_temperal = snake_y[0]
+        global x_temporal, y_temporal
+        x_temporal = snake_x[0]
+        y_temporal = snake_y[0]
         snake_x[0] += moveX
         snake_y[0] += moveY
         snake_x[0] = Border_Check_X(snake_x[0])
@@ -19,8 +19,8 @@ class snake(object):
                 snake_x[len(snake_x) - n] = snake_x[len(snake_x) - n - 1]
                 snake_y[len(snake_x) - n] = snake_y[len(snake_x) - n - 1]
         if len(snake_x) > 1:
-            snake_x[1] = x_temperal
-            snake_y[1] = y_temperal
+            snake_x[1] = x_temporal
+            snake_y[1] = y_temporal
 
         pass
     def hit_check(a, b):
@@ -35,7 +35,7 @@ class snake(object):
         pygame.draw.rect(game_surface, SNAKE_BODY_COLOR, (snake_x[0], snake_y[0], 10, 10))
         pass
 
-class food(object):
+class food:
     def eaten_check():
         if snake_x[0] == food_x and snake_y[0] == food_y or press[pygame.K_e]:
             return True
@@ -58,8 +58,27 @@ class food(object):
         pygame.draw.rect(game_surface, FOOD_COLOR, (food_x, food_y, 10, 10))
         pass
 
-class game():
-    def cosplay_yarmongand():
+class game:
+    def menu():
+        global menu_status
+        f_menu_game_name = pygame.font.Font("/home/jayanta/Python/SnakeGame/QuicksilverFastRegular.ttf", 60)
+        menu_game_name = f_menu_game_name.render("SNAKE", 1, SNAKE_BODY_COLOR)
+        menu_game_name_pos = menu_game_name.get_rect(center=(W_OF_SCREEN // 2, H_OF_SCREEN // 2 - H_OF_SCREEN // 10))
+
+        while True:
+            press = pygame.key.get_pressed()
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT or press[pygame.K_ESCAPE]:
+                    pygame.quit()
+                    exit()
+            if press[pygame.K_e]:
+                menu_status = False
+                break
+            game_surface.fill(FIELD_COLOR)
+            window.blit(game_surface, (0, 0))
+            window.blit(menu_game_name, menu_game_name_pos)
+            pygame.display.update()
+    def reset_if_hit():
         global score, snake_x, snake_y, moveX, moveY
 
         if snake.hit_check(snake_x[0], snake_y[0]):
@@ -92,7 +111,7 @@ class game():
             while True:
                 press = pygame.key.get_pressed()
                 for event in pygame.event.get():
-                    if event.type == pygame.QUIT or press[pygame.K_ESCAPE]:
+                    if event.type == pygame.QUIT:
                         pygame.quit()
                         exit()
                 if press[pygame.K_r]:
@@ -101,6 +120,10 @@ class game():
                     moveX = 0
                     moveY = speed
                     food.add()
+                    break
+
+                if press[pygame.K_ESCAPE]:
+                    menu_status = True
                     break
                 died_screen.fill((255, 0, 0))
                 died_screen.set_alpha(60)
@@ -118,21 +141,25 @@ class game():
                 pygame.display.update()
         pass
 
-class inputs():
+class inputs:
     def arrows():
         global moveY, moveX
         if press[pygame.K_LEFT] and backwordsch(moveX, speed):
             moveX = -speed
             moveY = 0
+            return
         if press[pygame.K_RIGHT] and backwordsch(moveX, -speed):
             moveX = speed
             moveY = 0
+            return
         if press[pygame.K_UP] and backwordsch(moveY, speed):
             moveY = -speed
             moveX = 0
+            return
         if press[pygame.K_DOWN] and backwordsch(moveY, -speed):
             moveY = speed
             moveX = 0
+            return
         pass
 
 
@@ -170,8 +197,8 @@ clock = pygame.time.Clock()
 speed = 10
 
 # Var
-x_temperal = 0
-y_temperal = 0
+x_temporal = 0
+y_temporal = 0
 moveX = 0
 moveY = speed
 score = 0
@@ -182,7 +209,7 @@ pygame.display.set_icon(pygame.image.load("Icon.png"))
 pygame.display.set_caption("SnakeV0.4")
 
 # colors
-Theme = 2
+Theme = 1
 if Theme == 1:
     SNAKE_BODY_COLOR = (139, 69, 19)
     FIELD_COLOR = (245, 222, 179)
@@ -216,17 +243,19 @@ f_score = pygame.font.SysFont("loma", 20)
 score_text = f_score.render('Score: ' + str(score), 1, FOOD_COLOR)
 
 food.add()
+menu_status = True
 while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
-            pygame.quit()
             exit()
-
     press = pygame.key.get_pressed()
-
+    if press[pygame.K_ESCAPE]:
+        menu_status = True
     snake.move_head()
     snake.tail_build()
-    game.cosplay_yarmongand()
+    game.reset_if_hit()
+    if menu_status:
+        game.menu()
     food.geting_eaten()
 
     game_surface.fill(FIELD_COLOR)
