@@ -60,7 +60,7 @@ class food:
 
 class game:
     def menu():
-        global menu_status, SNAKE_BODY_COLOR, FOOD_COLOR, FIELD_COLOR
+        global menu_status, SNAKE_BODY_COLOR, FOOD_COLOR, FIELD_COLOR, H_OF_SCREEN, W_OF_SCREEN, W_OF_GAME, H_OF_GAME, BorderRIGHT, BorderDOWN, window, game_surface
         f_menu_game_name = pygame.font.Font("/home/jayanta/Python/SnakeGame/QuicksilverFastRegular.ttf", 60)
         f_menu_game_start = pygame.font.Font("/home/jayanta/Python/SnakeGame/GvTimeRegular.ttf", 30)
         while True:
@@ -73,17 +73,17 @@ class game:
                 break
             menu_game_name = f_menu_game_name.render("SNAKE", 1, FOOD_COLOR)
             menu_game_name_pos = menu_game_name.get_rect(
-                center=(W_OF_SCREEN // 2, H_OF_SCREEN // 2 - H_OF_SCREEN // 10))
+                center=(W_OF_GAME // 2, H_OF_GAME // 2 - H_OF_GAME // 10))
 
             menu_game_start = f_menu_game_start.render('Press "Spase" to start', 1, FOOD_COLOR)
-            menu_game_start_pos = menu_game_start.get_rect(center=(W_OF_SCREEN // 2, menu_game_name_pos.bottom + 20))
+            menu_game_start_pos = menu_game_start.get_rect(center=(W_OF_GAME // 2, menu_game_name_pos.bottom + 20))
             game_surface.fill(FIELD_COLOR)
             window.blit(game_surface, (0, 0))
             window.blit(menu_game_name, menu_game_name_pos)
             window.blit(menu_game_start, menu_game_start_pos)
             if press[pygame.K_ESCAPE]:
-                exit = pygame.Surface((W_OF_SCREEN//3, H_OF_SCREEN//3))
-                exit_pos = exit.get_rect(center=(W_OF_SCREEN//2, H_OF_SCREEN//2))
+                exit = pygame.Surface((W_OF_GAME//3, H_OF_GAME//3))
+                exit_pos = exit.get_rect(center=(W_OF_GAME//2, H_OF_GAME//2))
                 exit.fill(BLACK)
                 f_exit_text = pygame.font.Font("/home/jayanta/Python/SnakeGame/BiggestGarbage.otf", 20)
                 exit_text = f_exit_text.render("Do you want to leave? y/n", 1, WHITE)
@@ -100,9 +100,37 @@ class game:
                         exit()
                     if press[pygame.K_n]:
                         break
+            if press[pygame.K_d]:
+                difficult = pygame.Surface((W_OF_GAME // 3, H_OF_GAME // 3))
+                difficult_pos = difficult.get_rect(center=(W_OF_GAME // 2, H_OF_GAME // 2))
+                difficult.fill(BLACK)
+                f_difficult_text = pygame.font.Font("/home/jayanta/Python/SnakeGame/BiggestGarbage.otf", 20)
+                difficult_text = f_difficult_text.render("Difficult: 1-3", 1, WHITE)
+                difficult_text_pos = difficult_text.get_rect(center=difficult_pos.center)
+                window.blit(difficult, difficult_pos)
+                window.blit(difficult_text, difficult_text_pos)
+                pygame.display.update()
+                while True:
+                    global FPS
+                    press = pygame.key.get_pressed()
+                    for event in pygame.event.get():
+                        if event.type == pygame.QUIT:
+                            exit()
+                    if press[pygame.K_0]:
+                        FPS = 7
+                        break
+                    if press[pygame.K_1]:
+                        FPS = 10
+                        break
+                    if press[pygame.K_2]:
+                        FPS = 15
+                        break
+                    if press[pygame.K_3]:
+                        FPS = 25
+                        break
             if press[pygame.K_t]:
-                theme = pygame.Surface((W_OF_SCREEN // 3, H_OF_SCREEN // 3))
-                theme_pos = theme.get_rect(center=(W_OF_SCREEN // 2, H_OF_SCREEN // 2))
+                theme = pygame.Surface((W_OF_GAME // 3, H_OF_GAME // 3))
+                theme_pos = theme.get_rect(center=(W_OF_GAME // 2, H_OF_GAME // 2))
                 theme.fill(BLACK)
                 f_theme_text = pygame.font.Font("/home/jayanta/Python/SnakeGame/BiggestGarbage.otf", 20)
                 theme_text = f_theme_text.render("Theme: 1-9", 1, WHITE)
@@ -115,21 +143,87 @@ class game:
                     for event in pygame.event.get():
                         if event.type == pygame.QUIT:
                             exit()
+                    if press[pygame.K_0]:
+                        SNAKE_BODY_COLOR = (0, 255, 0)
+                        FIELD_COLOR = BLACK
+                        FOOD_COLOR = (255, 0, 0)
+                        break
                     if press[pygame.K_1]:
                         SNAKE_BODY_COLOR = BLACK
-                        FIELD_COLOR = (243,202,32)
+                        FIELD_COLOR = (243, 202, 32)
                         FOOD_COLOR = BLACK
                         break
                     if press[pygame.K_2]:
-                        SNAKE_BODY_COLOR = (207,184,69)
-                        FIELD_COLOR = (20,20,20)
-                        FOOD_COLOR = (127,195,192)
+                        SNAKE_BODY_COLOR = (207, 184, 69)
+                        FIELD_COLOR = (20, 20, 20)
+                        FOOD_COLOR = (127, 195, 192)
+                        break
+                    if press[pygame.K_3]:
+                        SNAKE_BODY_COLOR = (69, 118, 235)
+                        FIELD_COLOR = (163, 210, 71)
+                        FOOD_COLOR = (232, 69, 23)
+                        break
+                    if press[pygame.K_4]:
+                        SNAKE_BODY_COLOR = (78, 59, 48)
+                        FIELD_COLOR = (168, 135, 109)
+                        FOOD_COLOR = (66, 58, 52)
+                        break
+                    if press[pygame.K_5]:
+                        SNAKE_BODY_COLOR = (0, 10, 20)
+                        FIELD_COLOR = (137, 156, 114)
+                        FOOD_COLOR = (0, 10, 20)
+                        break
+                    if press[pygame.K_6]:
+                        SNAKE_BODY_COLOR = (139, 69, 19)
+                        FIELD_COLOR = (245, 222, 179)
+                        FOOD_COLOR = (255, 69, 0)
                         break
                     if press[pygame.K_ESCAPE]:
                         break
+            if press[pygame.K_s]:
+                resolution = pygame.Surface((W_OF_GAME // 3, H_OF_GAME // 3))
+                resolution_pos = resolution.get_rect(center=(W_OF_GAME // 2, H_OF_GAME // 2))
+                resolution.fill(BLACK)
+                f_resolution_text = pygame.font.Font("/home/jayanta/Python/SnakeGame/BiggestGarbage.otf", 20)
+                resolution_text = f_resolution_text.render("Resolution: 1-4", 1, WHITE)
+                resolution_text_pos = resolution_text.get_rect(center=resolution_pos.center)
+                window.blit(resolution, resolution_pos)
+                window.blit(resolution_text, resolution_text_pos)
+                pygame.display.update()
+                while True:
+                    press = pygame.key.get_pressed()
+                    for event in pygame.event.get():
+                        if event.type == pygame.QUIT:
+                            exit()
+                    if press[pygame.K_0]:
+                        W_OF_SCREEN = 200
+                        H_OF_SCREEN = 200
+                        break
+                    if press[pygame.K_1]:
+                        W_OF_SCREEN = 400
+                        H_OF_SCREEN = 200
+                        break
+                    if press[pygame.K_2]:
+                        W_OF_SCREEN = 600
+                        H_OF_SCREEN = 400
+                        break
+                    if press[pygame.K_3]:
+                        W_OF_SCREEN = 800
+                        H_OF_SCREEN = 600
+                        break
+                    if press[pygame.K_4]:
+                        W_OF_SCREEN = 1250
+                        H_OF_SCREEN = 640
+                        break
+                window = pygame.display.set_mode((W_OF_SCREEN, H_OF_SCREEN))
+                W_OF_GAME, H_OF_GAME = W_OF_SCREEN, H_OF_SCREEN
+                game_surface = pygame.Surface((W_OF_GAME, H_OF_GAME))
+                BorderDOWN = H_OF_GAME
+                BorderRIGHT = W_OF_GAME
+                food.add()
             if press[pygame.K_ESCAPE]:
-                exit = pygame.Surface((W_OF_SCREEN//3, H_OF_SCREEN//3))
-                exit_pos = exit.get_rect(center=(W_OF_SCREEN//2, H_OF_SCREEN//2))
+                exit = pygame.Surface((W_OF_GAME//3, H_OF_GAME//3))
+                exit_pos = exit.get_rect(center=(W_OF_GAME//2, H_OF_GAME//2))
                 exit.fill(BLACK)
                 f_exit_text = pygame.font.Font("/home/jayanta/Python/SnakeGame/BiggestGarbage.otf", 20)
                 exit_text = f_exit_text.render("Do you want to leave? y/n", 1, WHITE)
@@ -160,16 +254,16 @@ class game:
             # Died screen fonts
             f_died_screen_text = pygame.font.Font("/home/jayanta/Python/GAme/minecraft.ttf", 40)
             died_screen_text = f_died_screen_text.render("You died!", 1, WHITE)
-            died_screen_text_pos = died_screen_text.get_rect(center=(W_OF_SCREEN // 2, H_OF_SCREEN // 2 - H_OF_SCREEN // 10))
+            died_screen_text_pos = died_screen_text.get_rect(center=(W_OF_GAME // 2, H_OF_GAME // 2 - H_OF_GAME // 10))
             died_screen_text_shadow = f_died_screen_text.render("You died!", 1, BLACK)
-            died_screen_text_shadow_pos = died_screen_text.get_rect(center=(W_OF_SCREEN // 2 + 3, H_OF_SCREEN // 2 - H_OF_SCREEN // 10 + 3))
+            died_screen_text_shadow_pos = died_screen_text.get_rect(center=(W_OF_GAME // 2 + 3, H_OF_GAME // 2 - H_OF_GAME // 10 + 3))
             died_screen_text_shadow.set_alpha(170)
 
             f_died_screen_score_text = pygame.font.Font("/home/jayanta/Python/GAme/minecraft.ttf", 20)
             died_screen_score_text = f_died_screen_score_text.render('Score: ', 1, WHITE)
-            died_screen_score_text_pos = died_screen_score_text.get_rect(center=(W_OF_SCREEN // 2, died_screen_text_pos.bottom + 10))
+            died_screen_score_text_pos = died_screen_score_text.get_rect(center=(W_OF_GAME // 2, died_screen_text_pos.bottom + 10))
             died_screen_score_text_shadow = f_died_screen_score_text.render('Score: ' + str(score), 1, BLACK)
-            died_screen_score_text_shadow_pos = died_screen_score_text.get_rect(center=(W_OF_SCREEN // 2 + 2, died_screen_text_pos.bottom + 10 + 2))
+            died_screen_score_text_shadow_pos = died_screen_score_text.get_rect(center=(W_OF_GAME // 2 + 2, died_screen_text_pos.bottom + 10 + 2))
             died_screen_score_text_shadow.set_alpha(200)
 
             died_screen_score = f_died_screen_score_text.render(str(score), 1, DIED_SCREEN_SCORE_COLOR)
@@ -178,10 +272,10 @@ class game:
 
             f_died_screen_buttons = pygame.font.Font("/home/jayanta/Python/GAme/minecraft.ttf", 15)
             died_screen_buttons = f_died_screen_buttons.render('Press "R" to restart', 1, WHITE)
-            died_screen_buttons_pos = died_screen_buttons.get_rect(center=(W_OF_SCREEN // 2, died_screen_score_text_pos.bottom + 30))
+            died_screen_buttons_pos = died_screen_buttons.get_rect(center=(W_OF_GAME // 2, died_screen_score_text_pos.bottom + 30))
             died_screen_buttons_shadow = f_died_screen_buttons.render('Press "R" to restart', 1, BLACK)
             died_screen_buttons_shadow_pos = died_screen_buttons.get_rect(
-                center=(W_OF_SCREEN // 2 + 2, died_screen_score_text_pos.bottom + 30 + 2))
+                center=(W_OF_GAME // 2 + 2, died_screen_score_text_pos.bottom + 30 + 2))
             died_screen_buttons_shadow.set_alpha(200)
             while True:
                 press = pygame.key.get_pressed()
@@ -280,18 +374,11 @@ pygame.display.set_icon(pygame.image.load("Icon.png"))
 pygame.display.set_caption("SnakeV0.4")
 
 # colors
-Theme = 1
-if Theme == 1:
-    SNAKE_BODY_COLOR = (139, 69, 19)
-    FIELD_COLOR = (245, 222, 179)
-    FOOD_COLOR = (255, 69, 0)
-elif Theme == 2:
-    SNAKE_BODY_COLOR = (247, 254, 0)
-    FIELD_COLOR = (5, 32, 96)
-    FOOD_COLOR = (255, 24, 0)
-
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
+SNAKE_BODY_COLOR = (0, 255, 0)
+FIELD_COLOR = BLACK
+FOOD_COLOR = (255, 0, 0)
 DIED_SCREEN_SCORE_COLOR = (247, 246, 96)
 # Game surface
 W_OF_GAME, H_OF_GAME = W_OF_SCREEN, H_OF_SCREEN
@@ -301,7 +388,7 @@ BorderDOWN = H_OF_GAME
 BorderRIGHT = W_OF_GAME
 
 # Died screen surface
-died_screen = pygame.Surface((W_OF_SCREEN, H_OF_SCREEN))
+died_screen = pygame.Surface((W_OF_GAME, H_OF_GAME))
 
 
 # Arrays
@@ -323,18 +410,17 @@ while True:
     if press[pygame.K_ESCAPE]:
         menu_status = True
     snake.move_head()
+    food.geting_eaten()
     snake.tail_build()
     game.reset_if_hit()
     if menu_status:
         game.menu()
-    food.geting_eaten()
-
     game_surface.fill(FIELD_COLOR)
     snake.draw_head()
     snake.tail_draw()
     food.draw()
     window.blit(game_surface, (0, 0))
-    score_pos = score_text.get_rect(center=(W_OF_SCREEN - 50, 10))
+    score_pos = score_text.get_rect(center=(W_OF_GAME - 50, 10))
     score_text = f_score.render('Score: ' + str(len(snake_x) - 1), 1, FOOD_COLOR)
     window.blit(score_text, score_pos)
     pygame.display.update()
