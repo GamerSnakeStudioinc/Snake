@@ -61,8 +61,8 @@ class food:
 class game:
     def menu():
         global menu_status, SNAKE_BODY_COLOR, FOOD_COLOR, FIELD_COLOR, H_OF_SCREEN, W_OF_SCREEN, W_OF_GAME, H_OF_GAME, BorderRIGHT, BorderDOWN, window, game_surface
-        f_menu_game_name = pygame.font.Font("/home/jayanta/Python/SnakeGame/QuicksilverFastRegular.ttf", 60)
-        f_menu_game_start = pygame.font.Font("/home/jayanta/Python/SnakeGame/GvTimeRegular.ttf", 30)
+        f_menu_game_name = pygame.font.Font("QuicksilverFastRegular.ttf", 60)
+        f_menu_game_start = pygame.font.Font("GvTimeRegular.ttf", 30)
         while True:
             press = pygame.key.get_pressed()
             for event in pygame.event.get():
@@ -85,7 +85,7 @@ class game:
                 exit = pygame.Surface((W_OF_GAME//3, H_OF_GAME//3))
                 exit_pos = exit.get_rect(center=(W_OF_GAME//2, H_OF_GAME//2))
                 exit.fill(BLACK)
-                f_exit_text = pygame.font.Font("/home/jayanta/Python/SnakeGame/BiggestGarbage.otf", 20)
+                f_exit_text = pygame.font.Font("BiggestGarbage.otf", 20)
                 exit_text = f_exit_text.render("Do you want to leave? y/n", 1, WHITE)
                 exit_text_pos = exit_text.get_rect(center=exit_pos.center)
                 window.blit(exit, exit_pos)
@@ -104,7 +104,7 @@ class game:
                 difficult = pygame.Surface((W_OF_GAME // 3, H_OF_GAME // 3))
                 difficult_pos = difficult.get_rect(center=(W_OF_GAME // 2, H_OF_GAME // 2))
                 difficult.fill(BLACK)
-                f_difficult_text = pygame.font.Font("/home/jayanta/Python/SnakeGame/BiggestGarbage.otf", 20)
+                f_difficult_text = pygame.font.Font("BiggestGarbage.otf", 20)
                 difficult_text = f_difficult_text.render("Difficult: 1-3", 1, WHITE)
                 difficult_text_pos = difficult_text.get_rect(center=difficult_pos.center)
                 window.blit(difficult, difficult_pos)
@@ -132,7 +132,7 @@ class game:
                 theme = pygame.Surface((W_OF_GAME // 3, H_OF_GAME // 3))
                 theme_pos = theme.get_rect(center=(W_OF_GAME // 2, H_OF_GAME // 2))
                 theme.fill(BLACK)
-                f_theme_text = pygame.font.Font("/home/jayanta/Python/SnakeGame/BiggestGarbage.otf", 20)
+                f_theme_text = pygame.font.Font("BiggestGarbage.otf", 20)
                 theme_text = f_theme_text.render("Theme: 1-9", 1, WHITE)
                 theme_text_pos = theme_text.get_rect(center=theme_pos.center)
                 window.blit(theme, theme_pos)
@@ -184,7 +184,7 @@ class game:
                 resolution = pygame.Surface((W_OF_GAME // 3, H_OF_GAME // 3))
                 resolution_pos = resolution.get_rect(center=(W_OF_GAME // 2, H_OF_GAME // 2))
                 resolution.fill(BLACK)
-                f_resolution_text = pygame.font.Font("/home/jayanta/Python/SnakeGame/BiggestGarbage.otf", 20)
+                f_resolution_text = pygame.font.Font("BiggestGarbage.otf", 20)
                 resolution_text = f_resolution_text.render("Resolution: 1-4", 1, WHITE)
                 resolution_text_pos = resolution_text.get_rect(center=resolution_pos.center)
                 window.blit(resolution, resolution_pos)
@@ -225,7 +225,7 @@ class game:
                 exit = pygame.Surface((W_OF_GAME//3, H_OF_GAME//3))
                 exit_pos = exit.get_rect(center=(W_OF_GAME//2, H_OF_GAME//2))
                 exit.fill(BLACK)
-                f_exit_text = pygame.font.Font("/home/jayanta/Python/SnakeGame/BiggestGarbage.otf", 20)
+                f_exit_text = pygame.font.Font("BiggestGarbage.otf", 20)
                 exit_text = f_exit_text.render("Do you want to leave? y/n", 1, WHITE)
                 exit_text_pos = exit_text.get_rect(center=exit_pos.center)
                 window.blit(exit, exit_pos)
@@ -252,14 +252,14 @@ class game:
             moveX = 0
             moveY = speed
             # Died screen fonts
-            f_died_screen_text = pygame.font.Font("/home/jayanta/Python/GAme/minecraft.ttf", 40)
+            f_died_screen_text = pygame.font.Font("minecraft.ttf", 40)
             died_screen_text = f_died_screen_text.render("You died!", 1, WHITE)
             died_screen_text_pos = died_screen_text.get_rect(center=(W_OF_GAME // 2, H_OF_GAME // 2 - H_OF_GAME // 10))
             died_screen_text_shadow = f_died_screen_text.render("You died!", 1, BLACK)
             died_screen_text_shadow_pos = died_screen_text.get_rect(center=(W_OF_GAME // 2 + 3, H_OF_GAME // 2 - H_OF_GAME // 10 + 3))
             died_screen_text_shadow.set_alpha(170)
 
-            f_died_screen_score_text = pygame.font.Font("/home/jayanta/Python/GAme/minecraft.ttf", 20)
+            f_died_screen_score_text = pygame.font.Font("minecraft.ttf", 20)
             died_screen_score_text = f_died_screen_score_text.render('Score: ', 1, WHITE)
             died_screen_score_text_pos = died_screen_score_text.get_rect(center=(W_OF_GAME // 2, died_screen_text_pos.bottom + 10))
             died_screen_score_text_shadow = f_died_screen_score_text.render('Score: ' + str(score), 1, BLACK)
@@ -270,7 +270,7 @@ class game:
             died_screen_score_pos = died_screen_score.get_rect(topleft=died_screen_score_text_pos.topright)
             died_screen_score_pos.move_ip(0, 1)
 
-            f_died_screen_buttons = pygame.font.Font("/home/jayanta/Python/GAme/minecraft.ttf", 15)
+            f_died_screen_buttons = pygame.font.Font("minecraft.ttf", 15)
             died_screen_buttons = f_died_screen_buttons.render('Press "R" to restart', 1, WHITE)
             died_screen_buttons_pos = died_screen_buttons.get_rect(center=(W_OF_GAME // 2, died_screen_score_text_pos.bottom + 30))
             died_screen_buttons_shadow = f_died_screen_buttons.render('Press "R" to restart', 1, BLACK)
