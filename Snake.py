@@ -4,7 +4,7 @@ from array import *
 # v 0.5.0
 pygame.init()
 class snake:
-    def move_head():
+    def move():
         inputs.arrows()
         global x_temporal, y_temporal
         x_temporal = snake_x[0]
@@ -13,6 +13,8 @@ class snake:
         snake_y[0] += moveY
         snake_x[0] = Border_Check_X(snake_x[0])
         snake_y[0] = Border_Check_Y(snake_y[0])
+        food.getting_eaten()
+        snake.tail_build()
     def tail_build():
         if len(snake_x) > 2:
             for n in range(1, len(snake_x) - 1):
@@ -46,7 +48,7 @@ class food:
         while snake.hit_check(food_x, food_y) or (food_x % 10 != 0) or (food_y % 10 != 0):
             food_x = int(round(random.randint(1, W_OF_GAME - 10) / 100, 1) * 100)
             food_y = int(round(random.randint(1, H_OF_GAME - 10) / 100, 1) * 100)
-    def geting_eaten():
+    def getting_eaten():
         global score
         if food.eaten_check():
             snake_x.append(0)
@@ -309,26 +311,26 @@ class game:
 class inputs:
     def arrows():
         global moveY, moveX
-        if press[pygame.K_LEFT] and backwordsch(moveX, speed):
+        if press[pygame.K_LEFT] and suicide_hack(moveX, speed):
             moveX = -speed
             moveY = 0
             return
-        if press[pygame.K_RIGHT] and backwordsch(moveX, -speed):
+        if press[pygame.K_RIGHT] and suicide_hack(moveX, -speed):
             moveX = speed
             moveY = 0
             return
-        if press[pygame.K_UP] and backwordsch(moveY, speed):
+        if press[pygame.K_UP] and suicide_hack(moveY, speed):
             moveY = -speed
             moveX = 0
             return
-        if press[pygame.K_DOWN] and backwordsch(moveY, -speed):
+        if press[pygame.K_DOWN] and suicide_hack(moveY, -speed):
             moveY = speed
             moveX = 0
             return
         pass
 
 
-def backwordsch(a,b):
+def suicide_hack(a,b):
     return a != b
     pass
 
@@ -409,9 +411,7 @@ while True:
     press = pygame.key.get_pressed()
     if press[pygame.K_ESCAPE]:
         menu_status = True
-    snake.move_head()
-    food.geting_eaten()
-    snake.tail_build()
+    snake.move()
     game.reset_if_hit()
     if menu_status:
         game.menu()
